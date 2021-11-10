@@ -18,19 +18,27 @@ def binarize_image(img, threshold=200):
     return binarized_data
 
 
-def plot_map(img, path=[]):
+def get_scatter_data(img):
     # Get plot limits
     xmax = img.shape[0]
     ymax = img.shape[1]
-
-    # Create scatter plot data from image
+    
+    # Convert img data to list of scatterplot coordinates
     X = []
     for i in range(xmax):
         for j in range(ymax):
             if img[i,j] == 0:
                 X.append([i,j])
-    
-    X = np.transpose(X)
+    return X
+
+
+def plot_map(img, path=[]):
+    # Get plot limits
+    xmax = img.shape[0]
+    ymax = img.shape[1]
+
+    # Get and format data for scatterplot
+    X = np.transpose(get_scatter_data(img))
     path = np.transpose(path)
 
     # Plot map and path data as scatterplots
