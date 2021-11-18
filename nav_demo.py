@@ -1,6 +1,6 @@
 from nav_imaging import *
 from nav_algorithms import *
-from nav_animations import *
+# from nav_animations import *
 
 
 if __name__ == '__main__':

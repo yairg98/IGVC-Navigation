@@ -18,33 +18,33 @@ def binarize_image(img, threshold=200):
     return binarized_data
 
 
-def get_scatter_data(img):
+def get_scatter_data(img, xlim=None, ylim=None):
     # Get plot limits
-    xmax = img.shape[0]
-    ymax = img.shape[1]
+    xrange = range(0,img.shape[0]) if xlim==None else range(xlim[0], xlim[1])
+    yrange = range(0,img.shape[1]) if ylim==None else range(ylim[0], ylim[1])
     
     # Convert img data to list of scatterplot coordinates
     X = []
-    for i in range(xmax):
-        for j in range(ymax):
+    for i in xrange:
+        for j in yrange:
             if img[i,j] == 0:
                 X.append([i,j])
     return X
 
 
-def plot_map(img, path=[]):
+def plot_map(img, path=[], xlim=None, ylim=None):
     # Get plot limits
-    xmax = img.shape[0]
-    ymax = img.shape[1]
+    xlim = [0, img.shape[0]] if xlim==None else xlim
+    ylim = [0, img.shape[1]] if ylim==None else ylim
 
     # Get and format data for scatterplot
-    X = np.transpose(get_scatter_data(img))
+    X = np.transpose(get_scatter_data(img, xlim, ylim))
     path = np.transpose(path)
 
     # Plot map and path data as scatterplots
     plt.figure()
-    plt.xlim([0,xmax])
-    plt.ylim([ymax,0])
+    plt.xlim(xlim)
+    plt.ylim(ylim)
     plt.scatter(X[0], X[1], zorder=1)
     plt.scatter(path[0], path[1], zorder=2)
     plt.show()

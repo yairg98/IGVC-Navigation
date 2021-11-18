@@ -1,6 +1,11 @@
 """
 Rain animation example/template source:
     https://matplotlib.org/stable/gallery/animation/rain.html
+
+Planned animations:
+    1. Full view - movement of car through complete, fixed-frame map
+    2. Car view - observable section of map over time (fixed radius around car)
+    3. Mapper view - expanding map as new sections are "discovered" by the car
 """
 
 from nav_imaging import *
