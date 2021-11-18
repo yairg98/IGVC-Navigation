@@ -1,6 +1,6 @@
 from nav_imaging import *
 from nav_algorithms import *
-# from nav_animations import *
+from nav_animations import *
 
 
 if __name__ == '__main__':
@@ -14,5 +14,8 @@ if __name__ == '__main__':
     # Run simple_nav algorithm
     path = simple_nav(img, [30, 30])
 
-    # Plot map and path returned by simple_nav
-    plot_map(img, path)
+    # # Plot map and path returned by simple_nav
+    # plot_map(img, path)
+
+    # Fullview animation test
+    fullview_animation(img, path)
