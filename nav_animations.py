@@ -32,10 +32,10 @@ def fullview_animation(img, path):
 
 
 # Animation of observable part of map from car perspective
-def carview_animation(img, path, window):
+def carview_animation(img, path, rad):
     pass
 
 
 # Animation of mapping progress showing "discovered" areas only
-def carview_animation(img, path, window):
+def mapping_animation(img, path, rad):
     pass

@@ -18,6 +18,7 @@ def binarize_image(img, threshold=200):
     return binarized_data
 
 
+# Convert img object into a list of points for a scatterplot
 def get_scatter_data(img, xlim=None, ylim=None):
     # Get plot limits
     xrange = range(0,img.shape[0]) if xlim==None else range(xlim[0], xlim[1])
@@ -32,6 +33,7 @@ def get_scatter_data(img, xlim=None, ylim=None):
     return X
 
 
+# Plot the input map as a scatterplot
 def plot_map(img, path=[], xlim=None, ylim=None):
     # Get plot limits
     xlim = [0, img.shape[0]] if xlim==None else xlim
