@@ -5,7 +5,7 @@ from matplotlib import pyplot as plt
 
 # Return image as array or binary pixels
 def get_image(filename):
-    img = Image.open(filename)
+    img = Image.open(filename).rotate(270)
     img = binarize_image(img)
     return img
 
