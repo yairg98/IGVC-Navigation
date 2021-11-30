@@ -1,7 +1,6 @@
 from PIL import Image, ImageDraw
 import numpy as np
 from matplotlib import pyplot as plt
-from helper_methods import *
 
 
 # Return image as array or binary pixels
@@ -47,6 +46,23 @@ def plot_map(img, path=[], xlim=None, ylim=None):
     plt.show()
 
 
+# Return list of bins corresponding to angles obstructed by given point
+def find_angle_bins(bins, dx, dy, ds, p_rad):
+
+    # Find range of obstructed angles
+    dx += (1e-16 if dx==0 else 0) # Avoid division by zero
+    theta = np.arctan2(dy, dx)
+    theta1 = theta - p_rad/ds
+    theta2 = theta + p_rad/ds
+
+    # Find index of closest angle to each end of theta range
+    arr = np.abs(np.asarray([bins-theta1, bins-theta2]))
+    inds = np.argmin(arr, axis=1)
+
+    # Return all bins in range
+    return bins[inds[0] : inds[1]]
+
+
 # Apply filter to return only part of map visible to the car
 def carview_filter(img, pos, xlim=None, ylim=None, resolution=3600, p_rad=1):
 
@@ -66,7 +82,7 @@ def carview_filter(img, pos, xlim=None, ylim=None, resolution=3600, p_rad=1):
         ds = np.sqrt(dx**2 + dy**2)
         
         # Identify correct bin
-        blocked_bins = find_bins(arcs, dy, dx, ds, p_rad)
+        blocked_bins = find_angle_bins(arcs, dy, dx, ds, p_rad)
         
         # Add p to each necessary bin
         for b in blocked_bins:

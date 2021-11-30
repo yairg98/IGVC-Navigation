@@ -3,7 +3,6 @@ import time
 from nav_imaging import *
 from nav_algorithms import *
 from nav_animations import *
-from helper_methods import *
 
 
 if __name__ == '__main__':
