@@ -1,36 +1,16 @@
-def find_bin(arr, target):
-    n = len(arr)
-    left = 0
-    right = n - 1
-    mid = 0
+import numpy as np
 
-    # edge case - last or above all
-    if target >= arr[n - 1]:
-        return arr[n - 1]
-    # edge case - first or below all
-    if target <= arr[0]:
-        return arr[0]
-    # BSearch solution: Time & Space: Log(N)
+def find_bins(bins, dx, dy, ds, p_rad):
 
-    while left < right:
-        mid = (left + right) // 2  # find the mid
-        if target < arr[mid]:
-            right = mid
-        elif target > arr[mid]:
-            left = mid + 1
-        else:
-            return arr[mid]
+    # Find range of obstructed angles
+    dx += (1e-16 if dx==0 else 0) # Avoid division by zero
+    theta = np.arctan2(dy, dx)
+    theta1 = theta - p_rad/ds
+    theta2 = theta + p_rad/ds
 
-    if target < arr[mid]:
-        return find_closest(arr[mid - 1], arr[mid], target)
-    else:
-        return find_closest(arr[mid], arr[mid + 1], target)
+    # Find index of closest angle to each end of theta range
+    arr = np.abs(np.asarray([bins-theta1, bins-theta2]))
+    inds = np.argmin(arr, axis=1)
 
-
-# findClosest
-# We find the closest by taking the difference
-# between the target and both values. It assumes
-# that val2 is greater than val1 and target lies
-# between these two. 
-def find_closest(val1, val2, target):
-    return val2 if target - val1 >= val2 - target else val1
+    # Return all bins in range
+    return bins[inds[0] : inds[1]]

@@ -48,37 +48,35 @@ def plot_map(img, path=[], xlim=None, ylim=None):
 
 
 # Apply filter to return only part of map visible to the car
-def carview_filter(img, pos, xlim, ylim, res):
+def carview_filter(img, pos, xlim=None, ylim=None, resolution=3600, p_rad=1):
 
     # Get list of points
     X = img_to_scatterplot(img, xlim, ylim)
 
     # Create bins for each arc the snesor detects
-    arcs = np.linspace(-np.pi, np.pi, res)
+    arcs = np.linspace(-np.pi, np.pi, resolution)
     bins = dict.fromkeys(arcs)
 
     # Save only the closest point to the car within each arc
     for p in X:
 
-        print(p)
-        
         # Get dx, dy, and ds
         dx = p[0] - pos[0]
         dy = p[1] - pos[1]
         ds = np.sqrt(dx**2 + dy**2)
-
-        print([dx,dy,ds])
         
         # Identify correct bin
-        dx += (1e-16 if dx==0 else 0) # Avoid division by zero
-        theta = np.arctan(dy/dx)
-        b = find_bin(arcs, theta)
-        print([theta, b])
+        blocked_bins = find_bins(arcs, dy, dx, ds, p_rad)
         
-        # Add p to bin, if necessary
-        if bins[b] == None or ds < bins[b][1]:
-            bins[b] = [p, ds]
+        # Add p to each necessary bin
+        for b in blocked_bins:
+            if bins[b] == None or ds < bins[b][1]:
+                bins[b] = [p, ds]
 
         # Return new data:
-        X = [p[0] for p in bins.items()]
+        X = []
+        for b in bins:
+            if bins[b] != None:
+                X.append(bins[b][0])
+   
     return X
