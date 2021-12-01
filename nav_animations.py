@@ -63,10 +63,9 @@ def moving_window_animation(img, path, rad):
 
 # Animation of observable part of map from car perspective
 def carview_animation(img, path, rad, resolution):
-    
     # 1. Convert to scatterplot data format
-    # 2. 
-    
+    # 2. At each update, add newly discovered points to a set
+    # 3. Either fix asex or just the aspect ratio, if possible
     pass
 
 # Animation of mapping progress showing "discovered" areas only
