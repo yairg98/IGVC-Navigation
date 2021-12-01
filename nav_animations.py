@@ -58,7 +58,7 @@ def moving_window_animation(img, path, rad):
     # Construct and save the animation using the update function
     # TODO: Consider returning animation object and saving separately
     animation = FuncAnimation(fig, update, frames=range(len(path)), interval=10)
-    animation.save("carview_animation.mp4")
+    animation.save("moving_window_animation.mp4")
 
 
 # Animation of observable part of map from car perspective
