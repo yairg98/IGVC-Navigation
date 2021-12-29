@@ -62,11 +62,39 @@ def moving_window_animation(img, path, rad):
 
 
 # Animation of observable part of map from car perspective
-def carview_animation(img, path, rad, resolution):
-    # 1. Convert to scatterplot data format
-    # 2. At each update, add newly discovered points to a set
-    # 3. Either fix asex or just the aspect ratio, if possible
-    pass
+def carview_animation(img, path, rad):
+
+    # Find window limits
+    pos = path[0]
+    xlim = (pos[0]-rad, pos[0]+rad)
+    ylim = (pos[1]-rad, pos[1]+rad)
+
+    # Create figure and axes
+    fig = plt.figure(figsize=(7,7))
+    ax = fig.add_axes([0,0,1,1])
+    ax.set_xlim([0, img.shape[0]])
+    ax.set_ylim([0, img.shape[1]])
+
+    # Generate map with initial data
+    X = carview_filter(img, pos, xlim, ylim)
+    map_scat = ax.scatter(X[0], X[1], color='black')
+    car_scat = ax.scatter([pos[0]], [pos[1]], color='red')
+
+    # Internal function to update animation frame by frame
+    def update(i):
+        pos = path[i]
+        xlim = (pos[0]-rad, pos[0]+rad)
+        ylim = (pos[1]-rad, pos[1]+rad)
+        X = carview_filter(img, pos, xlim, ylim)
+        map_scat.set_offsets(X)
+        car_scat.set_offsets(pos)
+        ax.set_xlim(xlim[0], xlim[1])
+        ax.set_ylim(ylim[0], ylim[1])
+
+    # Construct and save the animation using the update function
+    # TODO: Consider returning animation object and saving separately
+    animation = FuncAnimation(fig, update, frames=len(path), interval=50)
+    animation.save("moving_window_animation.mp4")
 
 # Animation of mapping progress showing "discovered" areas only
 def mapping_animation(img, path, rad, res):

@@ -15,8 +15,18 @@ def get_image(filename, threshold=200):
 # Convert img object into a list of points for a scatterplot
 def img_to_scatterplot(img, xlim=None, ylim=None):
     # Get plot limits
-    xrange = range(0,img.shape[0]) if xlim==None else range(xlim[0], xlim[1])
-    yrange = range(0,img.shape[1]) if ylim==None else range(ylim[0], ylim[1])
+    if xlim == None:
+        xrange = range(0,img.shape[0])
+    else:
+        x1 = max(0, xlim[0])
+        x2 = min(img.shape[0], xlim[1])
+        xrange = range(x1, x2)
+    if ylim == None:
+        yrange = range(0,img.shape[0])
+    else:
+        y1 = max(0, ylim[0])
+        y2 = min(img.shape[1], ylim[1])
+        yrange = range(y1, y2)
     
     # Convert img data to list of scatterplot coordinates
     X = []
@@ -64,7 +74,7 @@ def find_angle_bins(bins, dx, dy, ds, p_rad):
 
 
 # Apply filter to return only part of map visible to the car
-def carview_filter(img, pos, xlim=None, ylim=None, resolution=3600, p_rad=1):
+def carview_filter(img, pos, xlim=None, ylim=None, resolution=1000, p_rad=1):
 
     # Get list of points
     X = img_to_scatterplot(img, xlim, ylim)

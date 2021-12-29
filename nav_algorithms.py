@@ -12,10 +12,10 @@ def simple_nav(img, pos):
 
     # Set exit condition (reaching edge of map)
     while not np.any([
-        pos[0] == 0,
-        pos[0] == dims[0],
-        pos[1] == 0,
-        pos[1] == dims[1]]
+        pos[0] <= 0,
+        pos[0] >= dims[0]-80,
+        pos[1] <= 0,
+        pos[1] >= dims[1]]
     ):
         # TODO: add right-hand nav algorithm here
         
