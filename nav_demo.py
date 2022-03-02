@@ -13,10 +13,10 @@ if __name__ == '__main__':
     pos = [30,30]
 
     # Run simple_nav algorithm
-    path = simple_nav(img, pos)
+    path = pathfinder(img, pos)
 
     # Plot map and path returned by simple_nav
-    # plot_map(img, path)
+    plot_map(img, path)
 
     # Plot carview_filter output
     # X = np.transpose(carview_filter(img, pos, (0,350), (0,350), 1000))
@@ -32,4 +32,4 @@ if __name__ == '__main__':
     # moving_window_animation(img, path, rad=50)
 
     # Carview animation test
-    carview_animation(img, path, rad=100)
+    # carview_animation(img, path, rad=100)
