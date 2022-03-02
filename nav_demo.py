@@ -11,9 +11,10 @@ if __name__ == '__main__':
     filename = 'maze.jpg'
     img = get_image(filename)
     pos = [30,30]
+    dir = [1,0]
 
     # Run simple_nav algorithm
-    path = pathfinder(img, pos)
+    path = pathfinder(img, pos, dir, step_size=5)
 
     # Plot map and path returned by simple_nav
     plot_map(img, path)

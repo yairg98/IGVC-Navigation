@@ -1,4 +1,5 @@
 import numpy as np
+import random
 
 
 # Placeholder navigation function (straight line to the map edge)
@@ -29,7 +30,7 @@ def simple_nav(img, pos):
 # Return cartesian distance between points A and B
 def distance(A, B):
     x = (A[0]-B[0])**2 + (A[1]-B[1])**2
-    return np.sqrt(x)
+    return np.sqrt(x) + random.random()*1e-4
 
 
 # Convert 2D map into list of obstacles
@@ -41,7 +42,8 @@ def get_obstacles(img):
 # Currently only 
 def get_potential(img, pos):
     # Set APF object weights/charges
-    c_goal = 1.0
+    c_goal = -.10
+    c_breadcrumbs = 1
     c_obstacle = 4.0
 
     # Initialize potential
@@ -63,7 +65,8 @@ def get_potential(img, pos):
 # Get available moves from given position
 #   Placeholder returns all adjacent positions
 #   Can be adjusted to account for step size and/or direction
-def get_moves(img, pos):
+def get_moves(pos, dir, step_size=1):
+    dir = np.multiply(dir,-1)
     directions = [
         [-1,-1],
         [0,-1],
@@ -74,13 +77,17 @@ def get_moves(img, pos):
         [1,-1],
         [1,-1]
     ]
-    return [np.add(pos, dir) for dir in directions]
+    moves = []
+    for d in directions:
+        if distance(dir, d) > 1:
+            moves.append(np.add(pos, np.multiply(dir,step_size)))
+    return moves
 
 
 # Find adjacent point with lowest potential
-def optimal_move(img, pos):
+def optimal_move(img, pos, dir, step_size=1):
     # Get list of available moves from current position
-    moves = get_moves(img, pos)
+    moves = get_moves(pos, dir, step_size)
 
     # Find optimal move by minimizing potential
     optimal = [moves[0], get_potential(img,moves[0])]
@@ -94,7 +101,7 @@ def optimal_move(img, pos):
 
 
 # Find optimal path by following sequence of optimal moves
-def pathfinder(img, pos, radius=-1):
+def pathfinder(img, pos, dir, step_size = 1, radius=-1):
 
     # Initial position and map dimensions
     pos = np.array(pos)
@@ -114,7 +121,10 @@ def pathfinder(img, pos, radius=-1):
             pos[1] >= dims[1]
         ]
     ):
-        pos = optimal_move(img, pos)
+        pos = optimal_move(img, pos, dir, step_size)
         X.append(pos)
+        print(pos)
 
     return X
+
+
