@@ -1,36 +1,49 @@
 import matplotlib.pyplot as plt
-import time
-from nav_imaging import *
-from nav_algorithms import *
-from nav_animations import *
+from environment import *
+from navigator import *
+from animator import *
+from car import *
 
 
 if __name__ == '__main__':
 
     # Image and sim setup
     filename = 'maze.jpg'
-    img = get_image(filename)
+    env = Environment(filename)
     pos = [30,30]
+    goal = [380,380]
     dir = [1,0]
+    car = Car(pos, goal, dir)
 
     # Run simple_nav algorithm
-    path = pathfinder(img, pos, dir, step_size=5)
+    print("Starting simple_nav...")
+    # nav = StraightLineNav(env, car)
+    nav = SimpleNav(env, car)
+    path = nav.find_path()
+    # path = pathfinder(env.img, pos, dir, step_size=5)
 
     # Plot map and path returned by simple_nav
-    plot_map(img, path)
+    # print("Starting plot_map...")
+    # env.plot_map(path)
 
     # Plot carview_filter output
-    # X = np.transpose(carview_filter(img, pos, (0,350), (0,350), 1000))
+    # X = np.transpose(env.carview_filter(pos, (0,350), (0,350), 100))
     # plt.figure()
     # plt.scatter(X[0], X[1], zorder=1)
     # plt.scatter(pos[0], pos[1], zorder=2)
     # plt.show()
 
+
+    anim = Animator(env,path)
+
     # Fullview animation test
-    # fullview_animation(img, path)
+    print("Creating fullview animation...")
+    anim.fullview()
 
     # Moving windown animation test
-    # moving_window_animation(img, path, rad=50)
+    print("Creating moving window animation...")
+    anim.moving_window(rad=50)
 
     # Carview animation test
-    # carview_animation(img, path, rad=100)
+    print("Creating carview animation...")
+    anim.carview(rad=100)
