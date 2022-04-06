@@ -116,8 +116,9 @@ class SimpleNav(Navigator):
         return X
 
 
-
-
+# AStarNav reduces map to rectangles and 
+class AStarNav(Navigator):
+    pass
 
 
 

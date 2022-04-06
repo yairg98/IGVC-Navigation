@@ -9,11 +9,12 @@ class Environment:
         # Import, rotate, and format the envirinment map image
         self.img = np.asarray(
             Image.open(filename)\
-                .rotate(270)\
+                .transpose(Image.ROTATE_270)\
                 .convert("L")
         )
         # Binarize the image
         self.img = (self.img > threshold) * 255
+        print(self.img.shape)
 
 
     # Return image as array or binary pixels
@@ -39,7 +40,10 @@ class Environment:
             y1 = max(0, ylim[0])
             y2 = min(img.shape[1], ylim[1])
             yrange = range(y1, y2)
-        
+
+        print(xrange)
+        print(yrange)
+
         # Convert img data to list of scatterplot coordinates
         X = []
         for i in xrange:
@@ -68,7 +72,7 @@ class Environment:
         plt.ylim(ylim)
         plt.scatter(X[0], X[1], zorder=1, s=1)
         plt.scatter(path[0], path[1], zorder=2,s=1)
-        plt.show()
+        plt.savefig("fullview.png")
 
 
     # Return list of bins corresponding to angles obstructed by given point
@@ -89,7 +93,7 @@ class Environment:
 
 
     # Apply filter to return only part of map visible to the car
-    def carview_filter(self, pos, xlim=None, ylim=None, resolution=100, p_rad=1):
+    def lidar_filter(self, pos, xlim=None, ylim=None, resolution=100, p_rad=1):
 
         # Get list of points
         X = self.as_scatterplot(xlim, ylim)
@@ -121,3 +125,14 @@ class Environment:
                     X.append(bins[b][0])
     
         return X
+
+
+    # Plot carview of map
+    def plot_carview(self,pos,xlim=None,ylim=None,resolution=100,p_rad=1):
+        X = np.transpose(self.lidar_filter(pos,xlim,ylim,resolution,p_rad))
+        plt.figure()
+        plt.scatter(X[0], X[1], zorder=1)
+        plt.scatter(pos[0], pos[1], zorder=2)
+        plt.xlim(np.min(X), np.max(X))
+        plt.ylim(np.min(X), np.max(X))
+        plt.savefig("carview.png")

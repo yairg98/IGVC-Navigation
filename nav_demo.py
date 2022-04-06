@@ -3,37 +3,33 @@ from environment import *
 from navigator import *
 from animator import *
 from car import *
+import time
 
 
 if __name__ == '__main__':
 
-    # Image and sim setup
-    filename = 'maze.jpg'
+    # Setup
+    filename = 'drawn_map.jpeg'
     env = Environment(filename)
-    pos = [30,30]
+    pos = [50,50]
     goal = [380,380]
     dir = [1,0]
     car = Car(pos, goal, dir)
 
-    # Run simple_nav algorithm
-    print("Starting simple_nav...")
+    # Uncomment one nav algorithm line below:
     # nav = StraightLineNav(env, car)
     nav = SimpleNav(env, car)
+
+    # Run nav algorithm
+    print("Running nav algorithm...")
     path = nav.find_path()
-    # path = pathfinder(env.img, pos, dir, step_size=5)
 
-    # Plot map and path returned by simple_nav
-    # print("Starting plot_map...")
-    # env.plot_map(path)
+    # # Plot map and carview
+    print("Plotting map and carview...")
+    env.plot_map(path)
+    env.plot_carview(pos, (0,350), (0,350), 100)
 
-    # Plot carview_filter output
-    # X = np.transpose(env.carview_filter(pos, (0,350), (0,350), 100))
-    # plt.figure()
-    # plt.scatter(X[0], X[1], zorder=1)
-    # plt.scatter(pos[0], pos[1], zorder=2)
-    # plt.show()
-
-
+    # Instantiate animator
     anim = Animator(env,path)
 
     # Fullview animation test
@@ -42,7 +38,7 @@ if __name__ == '__main__':
 
     # Moving windown animation test
     print("Creating moving window animation...")
-    anim.moving_window(rad=50)
+    anim.moving_window(rad=100)
 
     # Carview animation test
     print("Creating carview animation...")

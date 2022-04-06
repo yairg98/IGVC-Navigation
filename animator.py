@@ -89,7 +89,7 @@ class Animator:
         ax.set_ylim([0, env.img.shape[1]])
 
         # Generate map with initial data
-        X = env.carview_filter(pos, xlim, ylim)
+        X = env.lidar_filter(pos, xlim, ylim)
         map_scat = ax.scatter(X[0], X[1], color='black')
         car_scat = ax.scatter([pos[0]], [pos[1]], color='red')
 
@@ -98,7 +98,7 @@ class Animator:
             pos = path[i]
             xlim = (pos[0]-rad, pos[0]+rad)
             ylim = (pos[1]-rad, pos[1]+rad)
-            X = env.carview_filter(pos, xlim, ylim)
+            X = env.lidar_filter(pos, xlim, ylim)
             map_scat.set_offsets(X)
             car_scat.set_offsets(pos)
             ax.set_xlim(xlim[0], xlim[1])
