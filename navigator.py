@@ -1,7 +1,9 @@
 import numpy as np
 import random
-import matplotlib.pyplot as plt
 from environment import *
+from sklearn.neighbors import NearestNeighbors
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 
 # Navigator parent class (abstract class)
@@ -122,7 +124,22 @@ class AStarNav(Navigator):
     # SimpleNav constructor - inherits Navigator class
     def __init__(self,env,car):
         Navigator.__init__(self, env, car)
+        self.knn = NearestNeighbors(n_neighbors=1)
+        self.knn.fit(self.get_obstacles())
 
     # Find path of greatest absolute distance from nearest obstacle
     def find_path(self):
-        pass
+        
+        path = []
+        prev = self.car.path
+        dirs = [[1,0],[0,-1],[-1,0],[0,1]]
+
+    # Plot obstacle proximity heatmap
+    def proximity_heatmap(self):
+        self.knn.kneighbors_graph()
+        x, y = self.env.img.shape
+        X = self.get_obstacles()
+        hm_data = self.knn.kneighbors_graph(X).toarray()
+        print(hm_data)
+        ax = sns.heatmap(hm_data)
+        plt.show()

@@ -18,28 +18,29 @@ if __name__ == '__main__':
 
     # Uncomment one nav algorithm line below:
     # nav = StraightLineNav(env, car)
-    nav = SimpleNav(env, car)
+    nav = AStarNav(env, car)
+    nav.proximity_heatmap()
 
-    # Run nav algorithm
-    print("Running nav algorithm...")
-    path = nav.find_path()
+    # # Run nav algorithm
+    # print("Running nav algorithm...")
+    # path = nav.find_path()
 
-    # # Plot map and carview
-    print("Plotting map and carview...")
-    env.plot_map(path)
-    env.plot_carview(pos, (0,350), (0,350), 100)
+    # # # Plot map and carview
+    # print("Plotting map and carview...")
+    # env.plot_map(path)
+    # env.plot_carview(pos, (0,350), (0,350), 100)
 
-    # Instantiate animator
-    anim = Animator(env,path)
+    # # Instantiate animator
+    # anim = Animator(env,path)
 
-    # Fullview animation test
-    print("Creating fullview animation...")
-    anim.fullview()
+    # # Fullview animation test
+    # print("Creating fullview animation...")
+    # anim.fullview()
 
-    # Moving windown animation test
-    print("Creating moving window animation...")
-    anim.moving_window(rad=100)
+    # # Moving windown animation test
+    # print("Creating moving window animation...")
+    # anim.moving_window(rad=100)
 
-    # Carview animation test
-    print("Creating carview animation...")
-    anim.carview(rad=100)
+    # # Carview animation test
+    # print("Creating carview animation...")
+    # anim.carview(rad=100)

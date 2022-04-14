@@ -11,6 +11,7 @@ class Environment:
             Image.open(filename)\
                 .transpose(Image.ROTATE_270)\
                 .convert("L")
+                # .resize(size)
         )
         # Binarize the image
         self.img = (self.img > threshold) * 255
