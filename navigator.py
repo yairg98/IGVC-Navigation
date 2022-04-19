@@ -2,7 +2,6 @@ import numpy as np
 import random
 from environment import *
 from sklearn.neighbors import NearestNeighbors
-import seaborn as sns
 import matplotlib.pyplot as plt
 
 
@@ -130,16 +129,38 @@ class AStarNav(Navigator):
     # Find path of greatest absolute distance from nearest obstacle
     def find_path(self):
         
-        path = []
-        prev = self.car.path
-        dirs = [[1,0],[0,-1],[-1,0],[0,1]]
+        step=25
 
-    # Plot obstacle proximity heatmap
-    def proximity_heatmap(self):
-        self.knn.kneighbors_graph()
-        x, y = self.env.img.shape
-        X = self.get_obstacles()
-        hm_data = self.knn.kneighbors_graph(X).toarray()
-        print(hm_data)
-        ax = sns.heatmap(hm_data)
-        plt.show()
+        X = []
+        prev = self.car.path
+        pos = self.car.pos
+        dims = self.env.img.shape
+        dirs = [
+            [1,0],[0,-1],[-1,0],[0,1]]
+        dirs = list(np.multiply(dirs,step))
+
+        # Exit condition: edge of map or max path length
+        while not np.any([
+            pos[0] <= 0,
+            pos[0] >= dims[0],
+            pos[1] <= 0,
+            pos[1] >= dims[1],
+            len(X) > 5000 ]
+        ):
+
+            # Add position to path
+            X.append(pos.copy())
+
+            # List of adjacent positions
+            positions = [list(np.add(pos, dir)) for dir in dirs]
+
+            # List of distances between each position and nearest obstacle
+            distances = list(np.squeeze(self.knn.kneighbors(positions))[0])
+
+            # List of boolean indicators for whether position has been visited
+            unvisited = [0 if (p in X) or (p in prev) else 1 for p in positions]
+
+            i = np.argmax(np.multiply(distances, unvisited))
+            pos = positions[i]
+
+        return X

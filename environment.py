@@ -15,7 +15,6 @@ class Environment:
         )
         # Binarize the image
         self.img = (self.img > threshold) * 255
-        print(self.img.shape)
 
 
     # Return image as array or binary pixels
@@ -41,9 +40,6 @@ class Environment:
             y1 = max(0, ylim[0])
             y2 = min(img.shape[1], ylim[1])
             yrange = range(y1, y2)
-
-        print(xrange)
-        print(yrange)
 
         # Convert img data to list of scatterplot coordinates
         X = []
@@ -72,7 +68,8 @@ class Environment:
         plt.xlim(xlim)
         plt.ylim(ylim)
         plt.scatter(X[0], X[1], zorder=1, s=1)
-        plt.scatter(path[0], path[1], zorder=2,s=1)
+        # plt.scatter(path[0], path[1], zorder=2,s=1)
+        plt.plot(path[0], path[1], zorder=2, color='orange')
         plt.savefig("fullview.png")
 
 
