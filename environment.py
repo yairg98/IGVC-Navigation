@@ -51,7 +51,7 @@ class Environment:
 
 
     # Plot the input map as a scatterplot
-    def plot_map(self, path=[], xlim=None, ylim=None):
+    def plot_map(self, path=[], name='fullview', xlim=None, ylim=None):
 
         img = self.img
 
@@ -70,7 +70,9 @@ class Environment:
         plt.scatter(X[0], X[1], zorder=1, s=1)
         # plt.scatter(path[0], path[1], zorder=2,s=1)
         plt.plot(path[0], path[1], zorder=2, color='orange')
-        plt.savefig("fullview.png")
+
+        filename = 'plots/' + name + '.png'
+        plt.savefig(filename)
 
 
     # Return list of bins corresponding to angles obstructed by given point
@@ -126,11 +128,13 @@ class Environment:
 
 
     # Plot carview of map
-    def plot_carview(self,pos,xlim=None,ylim=None,resolution=100,p_rad=1):
+    def plot_carview(self,pos,name='carview',xlim=None,ylim=None,resolution=100,p_rad=1):
         X = np.transpose(self.lidar_filter(pos,xlim,ylim,resolution,p_rad))
         plt.figure()
         plt.scatter(X[0], X[1], zorder=1)
         plt.scatter(pos[0], pos[1], zorder=2)
         plt.xlim(np.min(X), np.max(X))
         plt.ylim(np.min(X), np.max(X))
-        plt.savefig("carview.png")
+
+        filename = 'plots/' + name + '.png'
+        plt.savefig(filename)

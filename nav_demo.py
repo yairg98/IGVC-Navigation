@@ -9,7 +9,7 @@ import time
 if __name__ == '__main__':
 
     # Setup
-    filename = 'drawn_map.jpeg'
+    filename = 'images/drawn_map.jpeg'
     env = Environment(filename)
     pos = [50,50]
     goal = [380,380]
@@ -18,7 +18,7 @@ if __name__ == '__main__':
 
     # Uncomment one nav algorithm line below:
     # nav = StraightLineNav(env, car)
-    nav = AStarNav(env, car)
+    nav = AStarNav(env, car, step=25)
 
     # # Run nav algorithm
     print("Running nav algorithm...")

@@ -121,15 +121,14 @@ class SimpleNav(Navigator):
 class AStarNav(Navigator):
     
     # SimpleNav constructor - inherits Navigator class
-    def __init__(self,env,car):
+    def __init__(self,env,car,step=1):
         Navigator.__init__(self, env, car)
         self.knn = NearestNeighbors(n_neighbors=1)
         self.knn.fit(self.get_obstacles())
+        self.step = step
 
     # Find path of greatest absolute distance from nearest obstacle
     def find_path(self):
-        
-        step=25
 
         X = []
         prev = self.car.path
@@ -137,7 +136,7 @@ class AStarNav(Navigator):
         dims = self.env.img.shape
         dirs = [
             [1,0],[0,-1],[-1,0],[0,1]]
-        dirs = list(np.multiply(dirs,step))
+        dirs = list(np.multiply(dirs,self.step))
 
         # Exit condition: edge of map or max path length
         while not np.any([
