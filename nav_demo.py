@@ -8,17 +8,22 @@ import time
 
 if __name__ == '__main__':
 
-    # Setup
+    # Initialize environment from image
     filename = 'images/drawn_map.jpeg'
     env = Environment(filename)
-    pos = [50,50]
-    goal = [380,380]
-    dir = [1,0]
-    car = Car(pos, goal, dir)
+
+    # Configure car
+    car_config = {
+        'pos': [100,100],
+        'dir': [1,0]
+    }
+
+    # Initialize car
+    car = Car(**car_config)
 
     # Uncomment one nav algorithm line below:
     # nav = StraightLineNav(env, car)
-    nav = AStarNav(env, car, step=25)
+    nav = KnnNav(env, car, step=25)
 
     # # Run nav algorithm
     print("Running nav algorithm...")

@@ -3,6 +3,8 @@ import random
 from environment import *
 from sklearn.neighbors import NearestNeighbors
 import matplotlib.pyplot as plt
+import bezier
+from bezier.hazmat.curve_helpers import get_curvature
 
 
 # Navigator parent class (abstract class)
@@ -117,8 +119,8 @@ class SimpleNav(Navigator):
         return X
 
 
-# AStarNav reduces map to rectangles and 
-class AStarNav(Navigator):
+# KnnNav finds the path that maximizes distance from obstacles 
+class KnnNav(Navigator):
     
     # SimpleNav constructor - inherits Navigator class
     def __init__(self,env,car,step=1):
@@ -128,7 +130,7 @@ class AStarNav(Navigator):
         self.step = step
 
     # Find path of greatest absolute distance from nearest obstacle
-    def find_path(self):
+    def find_path(self, n_steps=5000):
 
         X = []
         prev = self.car.path
@@ -144,7 +146,7 @@ class AStarNav(Navigator):
             pos[0] >= dims[0],
             pos[1] <= 0,
             pos[1] >= dims[1],
-            len(X) > 5000 ]
+            len(X) > n_steps ]
         ):
 
             # Add position to path
