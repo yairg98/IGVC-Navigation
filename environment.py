@@ -4,14 +4,18 @@ from matplotlib import pyplot as plt
 
 class Environment:
 
-    def __init__(self, filename, threshold=200):
+    # threshold: requisite brightness of a pizel to be considered 'on' when binarized
+    # scale: number of pixels per meter (pixels/m)
+    def __init__(self, filename, threshold=200, scale=10):
+        
+        # Set scale attribute
+        self.scale = scale
         
         # Import, rotate, and format the envirinment map image
         self.img = np.asarray(
             Image.open(filename)\
                 .transpose(Image.ROTATE_270)\
                 .convert("L")
-                # .resize(size)
         )
         # Binarize the image
         self.img = (self.img > threshold) * 255
