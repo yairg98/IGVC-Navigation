@@ -13,7 +13,7 @@ class Car:
         defaults = {
             'pos': [0,0],       # Current position of car
             'theta': 0,         # Direction car is pointing (rad from horizontal)
-            'speed': 10,        # Current speed of car (m/s)
+            'speed': 25,        # Current speed of car (m/s)
             'rad': 100,         # Radius of camera view (m)
             'lat': 0.1,         # Latency from sensing to steering actuation (s)
             'period': 1,        # Sampling and nav update period (s)
@@ -37,14 +37,16 @@ class Car:
         dist = self.speed * self.period
 
         # Break distance up into increments of length 'path_res'
-        increments = np.linspace(start=0, stop=dist, num=dist//self.path_res, endpoint=True)
+        increments = np.linspace(start=0, stop=dist, num=int(dist//self.path_res), endpoint=True)
         
         # Calculate x and y movement of car
-        x0, y0 = self.pos
+        x0 = self.pos[0] - r*np.cos(self.theta - np.pi/2)
+        y0 = self.pos[0] - r*np.sin(self.theta - np.pi/2)
+        print(f"{x0},{y0}")
         for d in increments:
-            theta = d/r
-            x = x0 + r*np.cos(theta)
-            y = y0 + r*np.sin(theta)
+            theta = d/r - np.pi/2
+            x = x0 + r*np.cos(self.theta + theta)
+            y = y0 + r*np.sin(self.theta + theta)
 
             # Update pos and hist
             self.hist.append(self.pos.copy())

@@ -22,8 +22,10 @@ if __name__ == '__main__':
     car = Car(**car_config)
 
     car.move_arc(r=10)
+    x, y = np.transpose(car.hist)
     plt.figure()
-    plt.plot(np.transpose(car.hist))
+    plt.scatter(x,y)
+    plt.gca().set_aspect(1)
     plt.show()
 
     # Uncomment one nav algorithm line below:
