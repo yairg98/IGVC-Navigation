@@ -3,8 +3,8 @@ import random
 from environment import *
 from sklearn.neighbors import NearestNeighbors
 import matplotlib.pyplot as plt
-import bezier
-from bezier.hazmat.curve_helpers import get_curvature
+# import bezier
+# from bezier.hazmat.curve_helpers import get_curvature
 
 
 # Navigator parent class (abstract class)
@@ -133,7 +133,7 @@ class KnnNav(Navigator):
     def find_path(self, n_steps=5000):
 
         X = []
-        prev = self.car.path
+        prev = self.car.hist
         pos = self.car.pos
         dims = self.env.img.shape
         dirs = [
