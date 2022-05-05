@@ -75,7 +75,7 @@ class Environment:
         # plt.scatter(path[0], path[1], zorder=2,s=1)
         plt.plot(path[0], path[1], zorder=2, color='orange')
 
-        filename = 'plots/' + name + '.png'
+        filename = 'output/' + name + '.png'
         plt.savefig(filename)
 
 
@@ -140,5 +140,5 @@ class Environment:
         plt.xlim(np.min(X), np.max(X))
         plt.ylim(np.min(X), np.max(X))
 
-        filename = 'plots/' + name + '.png'
+        filename = 'output/' + name + '.png'
         plt.savefig(filename)

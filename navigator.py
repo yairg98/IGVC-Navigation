@@ -4,7 +4,7 @@ from environment import *
 from sklearn.neighbors import NearestNeighbors
 import matplotlib.pyplot as plt
 import bezier
-from bezier.hazmat.curve_helpers import get_curvature
+from bezier.hazmat.curve_helpers import get_curvature, evaluate_hodograph
 
 
 # Navigator parent class (abstract class)
@@ -129,15 +129,15 @@ class KnnNav(Navigator):
         self.knn.fit(self.get_obstacles())
         self.step = step
 
+
     # Find path of greatest absolute distance from nearest obstacle
     def find_path(self, n_steps=5000):
 
         X = []
-        prev = self.car.path
+        prev = self.car.hist
         pos = self.car.pos
         dims = self.env.img.shape
-        dirs = [
-            [1,0],[0,-1],[-1,0],[0,1]]
+        dirs = [[1,0],[0,-1],[-1,0],[0,1]]
         dirs = list(np.multiply(dirs,self.step))
 
         # Exit condition: edge of map or max path length
@@ -165,3 +165,31 @@ class KnnNav(Navigator):
             pos = positions[i]
 
         return X
+
+
+    # Plot bezier curve for given path (for testing only)
+    def get_bezier_curve(self,path):
+
+        # Define bezier curve nodes
+        nodes = np.transpose(path)
+
+        # Create Bezier curve
+        curve = bezier.Curve.from_nodes(nodes)
+
+        return curve
+
+
+    # Generate Bezier path corresponding to given path
+    # s: lookahead distance / path length (to eventually be calculated automatically)
+    def get_curvature(self, path, s):
+
+        # Define bezier curve nodes
+        nodes = np.transpose(path)
+
+        # Find tangent line at lookahead point
+        T = evaluate_hodograph(s=s, nodes=nodes)
+
+        # Get curvature of bezier path at lookahead point
+        k = get_curvature(nodes, T, s)
+
+        return k
