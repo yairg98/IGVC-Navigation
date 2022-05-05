@@ -1,5 +1,5 @@
 import bezier
-from bezier.hazmat.curve_helpers import get_curvature
+from bezier.hazmat.curve_helpers import get_curvature, evaluate_hodograph
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -43,3 +43,4 @@ for i in range(0,len(K)):
     ax.plot(a,b,zorder=-1,linestyle='--')
 
 plt.show()
+# plt.savefig("bezier_test.jpg", dpi=200)

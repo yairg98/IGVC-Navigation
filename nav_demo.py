@@ -37,19 +37,26 @@ if __name__ == '__main__':
     # Plot map and carview
     # print("Plotting map and carview...")
     # env.plot_map(path)
-    # env.plot_carview(pos, (0,350), (0,350), 100)
+    # env.plot_carview(car.pos, xlim=(0,350), ylim=(0,350), resolution=100)
 
-    # # Instantiate animator
+    # Bezier testing
+    # s = .01
+    # print(f"R(s={s}) = {1/nav.get_curvature(path[:20], s=s)}")
+    # curve = nav.get_bezier_curve(path[:20])
+    # curve.plot(num_pts=250)
+    # plt.show()
+
+    # Instantiate animator
     # anim = Animator(env,path)
 
-    # # Fullview animation test
+    # Fullview animation test
     # print("Creating fullview animation...")
     # anim.fullview()
 
-    # # Moving windown animation test
+    # Moving windown animation test
     # print("Creating moving window animation...")
     # anim.moving_window(rad=100)
 
-    # # Carview animation test
+    # Carview animation test
     # print("Creating carview animation...")
     # anim.carview(rad=100)
