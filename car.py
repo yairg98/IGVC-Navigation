@@ -11,14 +11,14 @@ class Car:
 
         # Define default attribute values
         defaults = {
-            'pos': [0,0],       # Current position of car
-            'theta': 0,         # Direction car is pointing (rad from horizontal)
-            'speed': 25,        # Current speed of car (m/s)
-            'rad': 100,         # Radius of camera view (m)
-            'lat': 0.1,         # Latency from sensing to steering actuation (s)
-            'period': 1,        # Sampling and nav update period (s)
-            'path_res': 1,    # Max distance between points on recorded path
-            'hist': []          # Path history of the car    
+            'pos': [0,0],   # Current position of car
+            'theta': 0,     # Direction car is pointing (radians from horizontal)
+            'speed': 25,    # Current speed of car (m/s)
+            'rad': 100,     # Radius of camera view (m)
+            'lat': 0.1,     # Latency from sensing to steering actuation (s)
+            'period': 1,    # Sampling and nav update period (s)
+            'path_res': 1,  # Max distance between points on recorded path
+            'hist': []      # Path history of the car    
         }
 
         # Set all attributes to default values
@@ -37,7 +37,8 @@ class Car:
         dist = self.speed * self.period
 
         # Break distance up into increments of length 'path_res'
-        increments = np.linspace(start=0, stop=dist, num=int(dist//self.path_res), endpoint=True)
+        increments = np.linspace(
+            0, dist, num=int(dist//self.path_res), endpoint=True)
         
         # Calculate x and y movement of car
         x0 = self.pos[0] - r*np.cos(self.theta - np.pi/2)
